@@ -54,7 +54,7 @@ class Board:
     def update_nums(self, nums):
         counter = 0
         while counter < 3:
-            if nums[counter] = nums[counter + 1]:
+            if nums[counter] == nums[counter + 1]:
                 nums[counter + 1] = 2 * nums[counter]
                 nums[counter] = 0
                 counter = counter + 1
