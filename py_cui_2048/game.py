@@ -59,13 +59,17 @@ class Board:
                 nums[counter] = 0
                 counter = counter + 1
             counter = counter + 1
+        """
         counter = 3
         while counter >= 0:
             if nums[counter] == 0:
                 i = counter - 1
-                while i >=0:
-                    nums[i] = nums[i + 1]
-            counter = counter - 1
+                while i > 0:
+                    nums[i] = nums[i - 1]
+                    i = i - 1
+            else:
+                counter = counter - 1
+        """
 
 
     def print_board(self):

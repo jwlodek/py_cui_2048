@@ -39,7 +39,10 @@ class CUI2048:
 
     def shift_right(self):
         self.game_instance.game_board.process_rows('right')
-        self.apply_board_state()
+        self.master.stop()
+        print(self.game_instance.game_board.board_positions)
+        exit()
+        #self.apply_board_state()
 
 
     def initialize_new_game(self):
