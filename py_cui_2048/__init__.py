@@ -27,22 +27,23 @@ class CUI2048:
 
     def shift_up(self):
         self.game_instance.game_board.process_columns('up')
+        self.game_instance.game_board.add_random_tile()
         self.apply_board_state()
 
     def shift_left(self):
         self.game_instance.game_board.process_rows('left')
+        self.game_instance.game_board.add_random_tile()
         self.apply_board_state()
 
     def shift_down(self):
         self.game_instance.game_board.process_columns('down')
+        self.game_instance.game_board.add_random_tile()
         self.apply_board_state()
 
     def shift_right(self):
         self.game_instance.game_board.process_rows('right')
-        self.master.stop()
-        print(self.game_instance.game_board.board_positions)
-        exit()
-        #self.apply_board_state()
+        self.game_instance.game_board.add_random_tile()
+        self.apply_board_state()
 
 
     def initialize_new_game(self):
@@ -54,7 +55,7 @@ class CUI2048:
     def operate_on_menu_item(self):
         operation = self.menu.get()
         if operation == 'New Game':
-            self.initialize_new_game
+            self.initialize_new_game()
         elif operation == 'Save Game':
             self.master.show_error_popup('Save Error', 'Saving has not yet been implemented')
         elif operation == 'Exit':
@@ -87,20 +88,30 @@ class CUI2048:
                 elif val == 16:
                     self.positions[i][j].color = py_cui.MAGENTA_ON_BLACK
                 elif val == 32:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.GREEN_ON_BLACK
                 elif val == 64:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.GREEN_ON_BLACK
                 elif val == 128:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.RED_ON_BLACK
                 elif val == 256:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.RED_ON_BLACK
                 elif val == 512:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.YELLOW_ON_BLACK
                 elif val == 1024:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.YELLOW_ON_BLACK
                 elif val == 2048:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].color = py_cui.BLUE_ON_BLACK
 
+        won = self.game_instance.check_victory()
+        if won:
+            self.master.show_yes_no_popup('You won! Congratulations! Would you like to play again?', self.play_again)
+
+
+    def play_again(self, response):
+        if response:
+            self.initialize_new_game()
+        else:
+            exit()
 
 
     def generate_initial_placement(self):

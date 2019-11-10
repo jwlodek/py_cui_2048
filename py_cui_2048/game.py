@@ -1,3 +1,6 @@
+import random
+
+
 class Game:
 
     def __init__(self, initial_placement):
@@ -26,13 +29,29 @@ class Board:
         self.board_positions[initial_y1][initial_x1] = initial_val1
         self.board_positions[initial_y2][initial_x2] = initial_val2
 
+
+    def get_empty_pos_list(self):
+        empty_pos_list = []
+        for i in range(0, len(self.board_positions)):
+            for j in range(0, len(self.board_positions[i])):
+                if self.board_positions[i][j] == 0:
+                    empty_pos_list.append([i,j])
+        return empty_pos_list
+
+    def add_random_tile(self):
+        possible_pos = self.get_empty_pos_list()
+        rand_val = ((random.randint(1, 10) % 2) + 1) * 2
+        rand_pos = possible_pos[random.randint(0, len(possible_pos) - 1)]
+        self.board_positions[rand_pos[0]][rand_pos[1]] = rand_val
+
+
     def process_columns(self, direction):
         for i in range(0, len(self.board_positions[0])):
             temp = []
             for j in range(0, len(self.board_positions)):
                 temp.append(self.board_positions[j][i])
             if direction == 'up':
-                temp = temp.reverse()
+                temp.reverse()
             self.update_nums(temp)
             if direction == 'up':
                 temp.reverse()
@@ -43,33 +62,40 @@ class Board:
     def process_rows(self, direction):
         for i in range(0, len(self.board_positions)):
             temp = self.board_positions[i]
+            print(temp)
             if direction == 'left':
-                temp = temp.reverse()
+                temp.reverse()
             self.update_nums(temp)
             if direction == 'left':
-                temp = temp.reverse()
+                temp.reverse()
             self.board_positions[i] = temp
 
 
     def update_nums(self, nums):
         counter = 0
         while counter < 3:
-            if nums[counter] == nums[counter + 1]:
-                nums[counter + 1] = 2 * nums[counter]
+            next_num = counter + 1
+            while  next_num < 3 and nums[next_num] == 0:
+                next_num = next_num + 1
+            if nums[counter] == nums[next_num]:
+                nums[next_num] = 2 * nums[counter]
                 nums[counter] = 0
-                counter = counter + 1
-            counter = counter + 1
-        """
+                counter = next_num
+            counter = next_num
+        
+        output_arr = []
         counter = 3
+        non_zero = 0
         while counter >= 0:
-            if nums[counter] == 0:
-                i = counter - 1
-                while i > 0:
-                    nums[i] = nums[i - 1]
-                    i = i - 1
-            else:
-                counter = counter - 1
-        """
+            if nums[counter] != 0:
+                output_arr.append(nums[counter])
+                non_zero = non_zero + 1
+            counter = counter - 1
+        for i in range(0, 4-non_zero):
+            output_arr.append(0)
+        for i in range(0, len(output_arr)):
+            nums[i] = output_arr[3-i]
+        
 
 
     def print_board(self):
