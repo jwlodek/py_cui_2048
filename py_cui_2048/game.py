@@ -3,8 +3,8 @@ import random
 
 class Game:
 
-    def __init__(self, initial_placement):
-        self.game_board = Board(initial_placement)
+    def __init__(self, initial_placement, board_size = 4):
+        self.game_board = Board(initial_placement, board_size)
         self.score = 0
         self.turn = 0
 
@@ -17,7 +17,7 @@ class Game:
 
 class Board:
 
-    def __init__(self, initial_placement):
+    def __init__(self, initial_placement, board_size):
 
         initial_x1 = initial_placement[0][0]
         initial_y1 = initial_placement[0][1]
@@ -25,7 +25,13 @@ class Board:
         initial_x2 = initial_placement[1][0]
         initial_y2 = initial_placement[1][1]
         initial_val2 = initial_placement[1][2]
-        self.board_positions = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+        self.board_size = board_size
+        self.board_positions = []
+        temp = []
+        for i in range(0, board_size):
+            temp.append(0)
+        for i in range(0, board_size):
+            self.board_positions.append(temp)
         self.board_positions[initial_y1][initial_x1] = initial_val1
         self.board_positions[initial_y2][initial_x2] = initial_val2
 
@@ -73,9 +79,9 @@ class Board:
 
     def update_nums(self, nums):
         counter = 0
-        while counter < 3:
+        while counter < (self.board_size - 1):
             next_num = counter + 1
-            while  next_num < 3 and nums[next_num] == 0:
+            while  next_num < (self.board_size - 1) and nums[next_num] == 0:
                 next_num = next_num + 1
             if nums[counter] == nums[next_num]:
                 nums[next_num] = 2 * nums[counter]
@@ -91,10 +97,10 @@ class Board:
                 output_arr.append(nums[counter])
                 non_zero = non_zero + 1
             counter = counter - 1
-        for i in range(0, 4-non_zero):
+        for i in range(0, self.board_size-non_zero):
             output_arr.append(0)
         for i in range(0, len(output_arr)):
-            nums[i] = output_arr[3-i]
+            nums[i] = output_arr[self.board_size - 1 - i]
         
 
 

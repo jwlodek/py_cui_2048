@@ -7,6 +7,7 @@ class CUI2048:
     def __init__(self, master):
         self.master = master
         self.positions = []
+        self.board_dims = 8
         for i in range (0,4):
             row = []
             for j in range(0,4):
@@ -16,7 +17,7 @@ class CUI2048:
         self.initialize_new_game()
         self.master.add_block_label(self.get_logo_text(), 0, 4, row_span = 1, column_span=3)
         self.master.add_label('Score: 0', 1, 5)
-        scroll_menu_options = ['New Game', 'Save Game', 'Exit']
+        scroll_menu_options = ['New Game', 'Select Board Size', 'Exit']
         self.menu = self.master.add_scroll_menu('Menu', 2, 4, row_span = 2, column_span = 3)
         self.menu.add_item_list(scroll_menu_options)
         self.menu.add_key_command(py_cui.keys.KEY_ENTER, self.operate_on_menu_item)
@@ -48,16 +49,21 @@ class CUI2048:
 
     def initialize_new_game(self):
         initial_placement = self.generate_initial_placement()
-        self.game_instance = GAME.Game(initial_placement)
+        self.game_instance = GAME.Game(initial_placement, board_size=self.board_dims)
         self.apply_board_state()
 
+
+    def new_game_set_size(self, size):
+        self.board_dims = int(size[0])
+        self.initialize_new_game()
 
     def operate_on_menu_item(self):
         operation = self.menu.get()
         if operation == 'New Game':
             self.initialize_new_game()
-        elif operation == 'Save Game':
-            self.master.show_error_popup('Save Error', 'Saving has not yet been implemented')
+        elif operation == 'Select Board Size':
+            sizes = ['4 x 4', '6 x 6', '8 x 8']
+            self.master.show_menu_popup('Select a board size', sizes, command=self.new_game_set_size)
         elif operation == 'Exit':
             exit()
 
@@ -73,8 +79,8 @@ class CUI2048:
         return out
 
     def apply_board_state(self):
-        for i in range(0, 4):
-            for j in range(0, 4):
+        for i in range(0, self.board_dims):
+            for j in range(0, self.board_dims):
                 val = self.game_instance.game_board.board_positions[i][j]
                 self.positions[i][j].title = str(val)
                 if val == 0:
@@ -120,8 +126,8 @@ class CUI2048:
         placement_2 = []
 
         for i in range(0,2):
-            placement_1.append(random.randint(0,3))
-            placement_2.append(random.randint(0,3))
+            placement_1.append(random.randint(0, self.board_dims - 1))
+            placement_2.append(random.randint(0, self.board_dims - 1))
 
         placement_1.append(random.randint(1,2) * 2)
         placement_2.append(random.randint(1,2) * 2)
