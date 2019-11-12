@@ -7,6 +7,7 @@ class CUI2048:
     def __init__(self, master):
         self.master = master
         self.positions = []
+        self.score_label = self.master.add_label('Score: 0, Turns: 0', 1, 4, column_span=3)
         for i in range (0,4):
             row = []
             for j in range(0,4):
@@ -15,7 +16,6 @@ class CUI2048:
             self.positions.append(row)
         self.initialize_new_game()
         self.master.add_block_label(self.get_logo_text(), 0, 4, row_span = 1, column_span=3)
-        self.master.add_label('Score: 0', 1, 5)
         scroll_menu_options = ['New Game', 'Save Game', 'Exit']
         self.menu = self.master.add_scroll_menu('Menu', 2, 4, row_span = 2, column_span = 3)
         self.menu.add_item_list(scroll_menu_options)
@@ -25,25 +25,46 @@ class CUI2048:
         self.master.add_key_command(py_cui.keys.KEY_S_LOWER, self.shift_down)
         self.master.add_key_command(py_cui.keys.KEY_D_LOWER, self.shift_right)
 
+
+    def update_turns_scores(self):
+        self.score_label.title = 'Score: {}, Turn: {}'.format(self.game_instance.score, self.game_instance.turn)
+
+
     def shift_up(self):
-        self.game_instance.game_board.process_columns('up')
-        self.game_instance.game_board.add_random_tile()
-        self.apply_board_state()
+        valid = self.game_instance.game_board.process_columns('up')
+        if valid:
+            out = self.game_instance.game_board.add_random_tile()
+            if out:
+                self.apply_board_state()
+            else:
+                self.show_game_over()
 
     def shift_left(self):
-        self.game_instance.game_board.process_rows('left')
-        self.game_instance.game_board.add_random_tile()
-        self.apply_board_state()
+        valid = self.game_instance.game_board.process_rows('left')
+        if valid:
+            out = self.game_instance.game_board.add_random_tile()
+            if out:
+                self.apply_board_state()
+            else:
+                self.show_game_over()
 
     def shift_down(self):
-        self.game_instance.game_board.process_columns('down')
-        self.game_instance.game_board.add_random_tile()
-        self.apply_board_state()
+        valid = self.game_instance.game_board.process_columns('down')
+        if valid:
+            out = self.game_instance.game_board.add_random_tile()
+            if out:
+                self.apply_board_state()
+            else:
+                self.show_game_over()
 
     def shift_right(self):
-        self.game_instance.game_board.process_rows('right')
-        self.game_instance.game_board.add_random_tile()
-        self.apply_board_state()
+        valid = self.game_instance.game_board.process_rows('right')
+        if valid:
+            out = self.game_instance.game_board.add_random_tile()
+            if out:
+                self.apply_board_state()
+            else:
+                self.show_game_over()
 
 
     def initialize_new_game(self):
@@ -51,6 +72,8 @@ class CUI2048:
         self.game_instance = GAME.Game(initial_placement)
         self.apply_board_state()
 
+    def show_game_over(self):
+        self.master.show_yes_no_popup('Game Over, Score: {}. Play Again?'.format(self.game_instance.score), command=self.play_again)
 
     def operate_on_menu_item(self):
         operation = self.menu.get()
@@ -102,9 +125,10 @@ class CUI2048:
                 elif val == 2048:
                     self.positions[i][j].color = py_cui.BLUE_ON_BLACK
 
+        self.update_turns_scores()
         won = self.game_instance.check_victory()
         if won:
-            self.master.show_yes_no_popup('You won! Congratulations! Would you like to play again?', self.play_again)
+            self.master.show_yes_no_popup('Congratulations You Won! ! Play Again?', self.play_again)
 
 
     def play_again(self, response):
