@@ -15,6 +15,20 @@ class Game:
                 if elem == 2048:
                     return True
 
+    def check_defeat(self):
+        for i in range(0, len(self.game_board.board_positions)):
+            for j in range(0, len(self.game_board.board_positions[i])):
+                if j > 0:
+                    if self.game_board.board_positions[i][j] == self.game_board.board_positions[i][j-1]:
+                        return False
+                if i > 0:
+                    if self.game_board.board_positions[i][j] == self.game_board.board_positions[i-1][j]:
+                        return False
+                if self.game_board.board_positions[i][j] == 0:
+                    return False
+
+        return True
+
 class Board:
 
     def __init__(self, parent_instance, initial_placement):

@@ -36,8 +36,6 @@ class CUI2048:
             out = self.game_instance.game_board.add_random_tile()
             if out:
                 self.apply_board_state()
-            else:
-                self.show_game_over()
 
     def shift_left(self):
         valid = self.game_instance.game_board.process_rows('left')
@@ -45,8 +43,6 @@ class CUI2048:
             out = self.game_instance.game_board.add_random_tile()
             if out:
                 self.apply_board_state()
-            else:
-                self.show_game_over()
 
     def shift_down(self):
         valid = self.game_instance.game_board.process_columns('down')
@@ -54,8 +50,6 @@ class CUI2048:
             out = self.game_instance.game_board.add_random_tile()
             if out:
                 self.apply_board_state()
-            else:
-                self.show_game_over()
 
     def shift_right(self):
         valid = self.game_instance.game_board.process_rows('right')
@@ -63,8 +57,6 @@ class CUI2048:
             out = self.game_instance.game_board.add_random_tile()
             if out:
                 self.apply_board_state()
-            else:
-                self.show_game_over()
 
 
     def initialize_new_game(self):
@@ -72,8 +64,6 @@ class CUI2048:
         self.game_instance = GAME.Game(initial_placement)
         self.apply_board_state()
 
-    def show_game_over(self):
-        self.master.show_yes_no_popup('Game Over, Score: {}. Play Again?'.format(self.game_instance.score), command=self.play_again)
 
     def operate_on_menu_item(self):
         operation = self.menu.get()
@@ -127,8 +117,11 @@ class CUI2048:
 
         self.update_turns_scores()
         won = self.game_instance.check_victory()
+        lost = self.game_instance.check_defeat()
         if won:
             self.master.show_yes_no_popup('Congratulations You Won! ! Play Again?', self.play_again)
+        elif lost:
+            self.master.show_yes_no_popup('Game Over, Score: {}. Play Again?'.format(self.game_instance.score), command=self.play_again)
 
 
     def play_again(self, response):
