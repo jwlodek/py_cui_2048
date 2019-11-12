@@ -14,16 +14,16 @@ class CUI2048:
                 pos = self.master.add_button('0', i, j, command=None)
                 row.append(pos)
             self.positions.append(row)
-        self.initialize_new_game()
         self.master.add_block_label(self.get_logo_text(), 0, 4, row_span = 1, column_span=3)
         scroll_menu_options = ['New Game', 'Save Game', 'Exit']
         self.menu = self.master.add_scroll_menu('Menu', 2, 4, row_span = 2, column_span = 3)
         self.menu.add_item_list(scroll_menu_options)
         self.menu.add_key_command(py_cui.keys.KEY_ENTER, self.operate_on_menu_item)
-        self.master.add_key_command(py_cui.keys.KEY_W_LOWER, self.shift_up)
-        self.master.add_key_command(py_cui.keys.KEY_A_LOWER, self.shift_left)
-        self.master.add_key_command(py_cui.keys.KEY_S_LOWER, self.shift_down)
-        self.master.add_key_command(py_cui.keys.KEY_D_LOWER, self.shift_right)
+        self.menu.add_key_command(py_cui.keys.KEY_W_LOWER, self.shift_up)
+        self.menu.add_key_command(py_cui.keys.KEY_A_LOWER, self.shift_left)
+        self.menu.add_key_command(py_cui.keys.KEY_S_LOWER, self.shift_down)
+        self.menu.add_key_command(py_cui.keys.KEY_D_LOWER, self.shift_right)
+        self.initialize_new_game()
 
 
     def update_turns_scores(self):
@@ -63,6 +63,7 @@ class CUI2048:
         initial_placement = self.generate_initial_placement()
         self.game_instance = GAME.Game(initial_placement)
         self.apply_board_state()
+        self.master.move_focus(self.menu)
 
 
     def operate_on_menu_item(self):
