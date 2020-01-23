@@ -7,6 +7,8 @@ class CUI2048:
     def __init__(self, master):
         self.master = master
         self.positions = []
+        self.prev_board = None
+        self.prev_score = 0
         self.score_label = self.master.add_label('Score: 0, Turns: 0', 1, 4, column_span=3)
         for i in range (0,4):
             row = []
@@ -15,7 +17,7 @@ class CUI2048:
                 row.append(pos)
             self.positions.append(row)
         self.master.add_block_label(self.get_logo_text(), 0, 4, row_span = 1, column_span=3)
-        scroll_menu_options = ['New Game', 'Save Game', 'Exit']
+        scroll_menu_options = ['New Game', 'Undo Move', 'Exit']
         self.menu = self.master.add_scroll_menu('Menu', 2, 4, row_span = 2, column_span = 3)
         self.menu.add_item_list(scroll_menu_options)
         self.menu.add_key_command(py_cui.keys.KEY_ENTER, self.operate_on_menu_item)
@@ -31,6 +33,8 @@ class CUI2048:
 
 
     def shift_up(self):
+        self.prev_board = self.game_instance.game_board.board_positions
+        self.prev_score = self.game_instance.score
         valid = self.game_instance.game_board.process_columns('up')
         if valid:
             out = self.game_instance.game_board.add_random_tile()
@@ -38,6 +42,8 @@ class CUI2048:
                 self.apply_board_state()
 
     def shift_left(self):
+        self.prev_board = self.game_instance.game_board.board_positions
+        self.prev_score = self.game_instance.score
         valid = self.game_instance.game_board.process_rows('left')
         if valid:
             out = self.game_instance.game_board.add_random_tile()
@@ -45,6 +51,8 @@ class CUI2048:
                 self.apply_board_state()
 
     def shift_down(self):
+        self.prev_board = self.game_instance.game_board.board_positions
+        self.prev_score = self.game_instance.score
         valid = self.game_instance.game_board.process_columns('down')
         if valid:
             out = self.game_instance.game_board.add_random_tile()
@@ -52,6 +60,8 @@ class CUI2048:
                 self.apply_board_state()
 
     def shift_right(self):
+        self.prev_board = self.game_instance.game_board.board_positions
+        self.prev_score = self.game_instance.score
         valid = self.game_instance.game_board.process_rows('right')
         if valid:
             out = self.game_instance.game_board.add_random_tile()
@@ -70,10 +80,19 @@ class CUI2048:
         operation = self.menu.get()
         if operation == 'New Game':
             self.initialize_new_game()
-        elif operation == 'Save Game':
-            self.master.show_error_popup('Save Error', 'Saving has not yet been implemented')
+        elif operation == 'Undo Move':
+            self.undo_move()
         elif operation == 'Exit':
             exit()
+
+    
+    def undo_move(self):
+        if self.prev_board is not None:
+            self.game_instance.game_board.board_positions = self.prev_board
+            self.game_instance.turn = self.game_instance.turn - 1
+            self.game_instance.score = self.prev_score
+            self.apply_board_state()
+            
 
 
     def get_logo_text(self):
@@ -85,6 +104,7 @@ class CUI2048:
         out = out + "./ /___\ |_/ /\___  || |_| |\n"
         out = out + "\_____/ \___/     |_/\_____/\n"
         return out
+
 
     def apply_board_state(self):
         for i in range(0, 4):
