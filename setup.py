@@ -3,9 +3,8 @@ from sys import platform
 from setuptools.command.install import install
 import os
 
-#required_packages = ['py_cui']
-required_packages = []
-
+with open('requirements.txt', 'r') as req_fp:
+    required_packages = req_fp.readlines()
 
 setup(
     name="py_cui_2048",
