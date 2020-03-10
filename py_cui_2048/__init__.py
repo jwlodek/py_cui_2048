@@ -331,5 +331,6 @@ def main():
 
     root = py_cui.PyCUI(4,7)
     root.set_title('2048')
+    root.toggle_unicode_borders()
     cui_2048 = CUI2048(root)
     root.start()
