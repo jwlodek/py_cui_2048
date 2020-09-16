@@ -102,7 +102,7 @@ class CUI2048:
         """Function that updates the score and turn counters as appropriate
         """
 
-        self.score_label.title = 'Score: {}, Turn: {}'.format(self.game_instance.score, self.game_instance.turn)
+        self.score_label.set_title('Score: {}, Turn: {}'.format(self.game_instance.score, self.game_instance.turn))
 
 
     def shift_up(self):
@@ -250,31 +250,31 @@ class CUI2048:
         for i in range(0, 4):
             for j in range(0, 4):
                 val = self.game_instance.game_board.board_positions[i][j]
-                self.positions[i][j].title = str(val)
+                self.positions[i][j].set_title(str(val))
                 if val == 0:
-                    self.positions[i][j].color = py_cui.WHITE_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_WHITE)
                 elif val == 2:
-                    self.positions[i][j].color = py_cui.CYAN_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_CYAN)
                 elif val == 4:
-                    self.positions[i][j].color = py_cui.CYAN_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_CYAN)
                 elif val == 8:
-                    self.positions[i][j].color = py_cui.MAGENTA_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_MAGENTA)
                 elif val == 16:
-                    self.positions[i][j].color = py_cui.MAGENTA_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_MAGENTA)
                 elif val == 32:
-                    self.positions[i][j].color = py_cui.GREEN_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_GREEN)
                 elif val == 64:
-                    self.positions[i][j].color = py_cui.GREEN_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_GREEN)
                 elif val == 128:
-                    self.positions[i][j].color = py_cui.RED_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_RED)
                 elif val == 256:
-                    self.positions[i][j].color = py_cui.RED_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_RED)
                 elif val == 512:
-                    self.positions[i][j].color = py_cui.YELLOW_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_YELLOW)
                 elif val == 1024:
-                    self.positions[i][j].color = py_cui.YELLOW_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_YELLOW)
                 elif val == 2048:
-                    self.positions[i][j].color = py_cui.BLUE_ON_BLACK
+                    self.positions[i][j].set_color(py_cui.BLACK_ON_BLUE)
 
         self.update_turns_scores()
         won = self.game_instance.check_victory()
