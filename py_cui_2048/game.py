@@ -36,7 +36,7 @@ class Game:
         self.score = 0
         self.turn = 0
 
-
+    # TODO: test
     def check_victory(self):
         """Checks if user won
 
@@ -51,7 +51,7 @@ class Game:
                 if elem == 2048:
                     return True
 
-
+    # TODO: test
     def check_defeat(self):
         """Checks if no valid moves left
 
@@ -119,7 +119,7 @@ class Board:
         self.board_positions[initial_y1][initial_x1] = initial_val1
         self.board_positions[initial_y2][initial_x2] = initial_val2
 
-
+    # TODO: test
     def get_empty_pos_list(self):
         """Function for getting list of empty cells in board
 
@@ -136,7 +136,7 @@ class Board:
                     empty_pos_list.append([i,j])
         return empty_pos_list
 
-
+    # TODO: test
     def add_random_tile(self):
         """Function that adds a new tile to a random empty location
 
@@ -155,7 +155,7 @@ class Board:
         except ValueError:
             return False
 
-
+    # TODO: test
     def process_columns(self, direction):
         """Processes a vertical (up/down) movement
 
@@ -190,7 +190,7 @@ class Board:
             self.parent_instance.turn = self.parent_instance.turn + 1
         return was_valid
 
-
+    # TODO: test
     def process_rows(self, direction):
         """Processes a horizontal (left/right) movement
 
@@ -223,7 +223,7 @@ class Board:
 
         return was_valid
 
-
+    # TODO: test
     def update_nums(self, nums):
         """Function that updates the numbers in a single column or row based on 2048 rules
 
@@ -274,7 +274,7 @@ class Board:
             nums[i] = output_arr[3-i]
         return valid_move, score_gain
 
-
+    # TODO: test
     def print_board(self):
         """Debug function for printing board
         """
