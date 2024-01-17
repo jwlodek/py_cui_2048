@@ -54,7 +54,7 @@ class CUI2048:
     undo_move()
         Function that is used to undo/redo a move
     get_logo_text()
-        Function tath gets ascii art 2048 logo
+        Function that gets ascii art 2048 logo
     apply_board_state()
         Function that applies the board state to the CUI.
     play_again()
@@ -222,7 +222,7 @@ class CUI2048:
 
 
     def get_logo_text(self):
-        """Function tath gets ascii art 2048 logo
+        """Function that gets ascii art 2048 logo
 
         Returns
         -------

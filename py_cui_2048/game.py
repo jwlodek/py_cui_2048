@@ -1,4 +1,4 @@
-"""File containing game board logic and functions (written independantly of CUI)
+"""File containing game board logic and functions (written independently of CUI)
 
 Author: Jakub Wlodek
 Created: Nov-12-2019
@@ -29,7 +29,7 @@ class Game:
     """
 
     def __init__(self, initial_placement):
-        """Constructor for game instace class object
+        """Constructor for game instance class object
         """
 
         self.game_board = Board(self, initial_placement)
