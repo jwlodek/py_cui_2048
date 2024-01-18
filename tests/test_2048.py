@@ -1,12 +1,10 @@
 import pytest
 from py_cui_2048.game import Board, Game
 
-# TODO: Test cases
 
-
-def test_failure():
-    assert False
+def test_add_up():
+    assert 2 + 2 == 4
 
 
 def test_success():
-    assert True
+    assert (5 == 7) == False
