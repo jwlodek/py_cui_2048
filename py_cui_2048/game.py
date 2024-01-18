@@ -286,5 +286,3 @@ class Board:
         for i in range(0, len(self.board_positions)):
             print(self.board_positions[i])
 
-
-# TODO: Define initial_placement and its use

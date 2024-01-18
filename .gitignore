@@ -1,12 +1,23 @@
+# python cache files
 .pycache/
 .pytest_cache/
+__pycache__/
+
+# key test files
 test.py
 test_no_cui.py
-__pycache__/
+
+# build files
 dist/
 build/
 *.egg*
+
+# visual studio code project files
 .vscode/
+
+# test coverage files
 .coverage
 htmlcov/
-2048.py
+
+# my approach to 2048
+2048_min.py
