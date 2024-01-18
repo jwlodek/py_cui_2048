@@ -24,29 +24,44 @@ class Tile:
     def __init__(self, value: int = 0) -> None:
         self.value = value
 
-    def is_merge_able(self, neighbor: "Tile") -> bool:
-        return neighbor.value == self.value
-
-    def is_empty(self) -> bool:
-        return self.value == 0
+    def merge_to(self, neighbor: "Tile") -> int:
+        result = 0
+        if neighbor.value == self.value:
+            neighbor.value += self.value
+            self.value = result
+            result = neighbor.value
+            return result
+        return result
 
 
 class Board:
     def __init__(self) -> None:
         self.tiles = [[Tile() for _ in range(4)] for _ in range(4)]
+        self.positions = {
+            1: self.tiles[0][0],
+            2: self.tiles[0][1],
+            3: self.tiles[0][2],
+            4: self.tiles[0][3],
+            5: self.tiles[1][0],
+            6: self.tiles[1][1],
+            7: self.tiles[1][2],
+            8: self.tiles[1][3],
+            9: self.tiles[2][0],
+            10: self.tiles[2][1],
+            11: self.tiles[2][2],
+            12: self.tiles[2][3],
+            13: self.tiles[3][0],
+            14: self.tiles[3][1],
+            15: self.tiles[3][2],
+            16: self.tiles[3][3],
+        }
 
-    def render(self, list_view: bool = False):
-        if list_view:
-            map(lambda x: map(lambda y: print(y.value), x), self.tiles)
-        else:
-            for rows in self.tiles:
-                for columns in rows:
-                    print("[ ", columns.value, " ]", end="")
-                print("")
+    def render(self):
+        view = ""
+        for rows in self.tiles:
+            for columns in rows:
+                view += "[ " + str(columns.value if columns.value != 0 else " ") + " ]"
+            view += "\n"
+        print(view)
 
 
-til = Tile()
-print(til)
-print(til.value)
-bod = Board()
-bod.render(list_view=True)

@@ -287,14 +287,4 @@ class Board:
             print(self.board_positions[i])
 
 
-# Test==>>
-
 # TODO: Define initial_placement and its use
-
-gam = Game()
-
-bod = Board()
-
-bod.add_random_tile()
-
-bod.print_board()
