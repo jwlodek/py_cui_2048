@@ -1,4 +1,4 @@
-"""File containing game board logic and functions (written independantly of CUI)
+"""File containing game board logic and functions (written independently of CUI)
 
 Author: Jakub Wlodek
 Created: Nov-12-2019
