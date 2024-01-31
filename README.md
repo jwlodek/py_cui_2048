@@ -29,7 +29,7 @@ When starting a game, you can control the board actions with WASD, and the arrow
 
 You can also create a new game or exit.
 
-To win, you wish to combine tiles until you get a tile that has a value of 2048. You recieve a game over message if there are no more legal moves remaining.
+To win, you wish to combine tiles until you get a tile that has a value of 2048. You receive a game over message if there are no more legal moves remaining.
 
 A typical game strategy involves placing the largest square in a corner, and ensuring that it stays there while other tiles are moved around it.
 
