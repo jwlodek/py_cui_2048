@@ -29,13 +29,11 @@ class Game:
     """
 
     def __init__(self, initial_placement):
-        """Constructor for game instace class object
-        """
+        """Constructor for game instance class object"""
 
         self.game_board = Board(self, initial_placement)
         self.score = 0
         self.turn = 0
-
 
     def check_victory(self):
         """Checks if user won
@@ -50,7 +48,6 @@ class Game:
             for elem in row:
                 if elem == 2048:
                     return True
-
 
     def check_defeat(self):
         """Checks if no valid moves left
@@ -67,10 +64,16 @@ class Game:
         for i in range(0, len(self.game_board.board_positions)):
             for j in range(0, len(self.game_board.board_positions[i])):
                 if j > 0:
-                    if self.game_board.board_positions[i][j] == self.game_board.board_positions[i][j-1]:
+                    if (
+                        self.game_board.board_positions[i][j]
+                        == self.game_board.board_positions[i][j - 1]
+                    ):
                         return False
                 if i > 0:
-                    if self.game_board.board_positions[i][j] == self.game_board.board_positions[i-1][j]:
+                    if (
+                        self.game_board.board_positions[i][j]
+                        == self.game_board.board_positions[i - 1][j]
+                    ):
                         return False
                 if self.game_board.board_positions[i][j] == 0:
                     return False
@@ -105,8 +108,7 @@ class Board:
     """
 
     def __init__(self, parent_instance, initial_placement):
-        """Constructor for board class
-        """
+        """Constructor for board class"""
 
         self.parent_instance = parent_instance
         initial_x1 = initial_placement[0][0]
@@ -115,10 +117,9 @@ class Board:
         initial_x2 = initial_placement[1][0]
         initial_y2 = initial_placement[1][1]
         initial_val2 = initial_placement[1][2]
-        self.board_positions = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+        self.board_positions = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
         self.board_positions[initial_y1][initial_x1] = initial_val1
         self.board_positions[initial_y2][initial_x2] = initial_val2
-
 
     def get_empty_pos_list(self):
         """Function for getting list of empty cells in board
@@ -133,9 +134,8 @@ class Board:
         for i in range(0, len(self.board_positions)):
             for j in range(0, len(self.board_positions[i])):
                 if self.board_positions[i][j] == 0:
-                    empty_pos_list.append([i,j])
+                    empty_pos_list.append([i, j])
         return empty_pos_list
-
 
     def add_random_tile(self):
         """Function that adds a new tile to a random empty location
@@ -155,7 +155,6 @@ class Board:
         except ValueError:
             return False
 
-
     def process_columns(self, direction):
         """Processes a vertical (up/down) movement
 
@@ -163,7 +162,7 @@ class Board:
         ----------
         direction : str
             Either up or down
-        
+
         Returns
         -------
         was_valid : bool
@@ -175,13 +174,13 @@ class Board:
             temp = []
             for j in range(0, len(self.board_positions)):
                 temp.append(self.board_positions[j][i])
-            if direction == 'up':
+            if direction == "up":
                 temp.reverse()
             valid, score = self.update_nums(temp)
             if valid:
                 self.parent_instance.score = self.parent_instance.score + score
                 was_valid = True
-            if direction == 'up':
+            if direction == "up":
                 temp.reverse()
             for j in range(0, len(self.board_positions)):
                 self.board_positions[j][i] = temp[j]
@@ -190,7 +189,6 @@ class Board:
             self.parent_instance.turn = self.parent_instance.turn + 1
         return was_valid
 
-
     def process_rows(self, direction):
         """Processes a horizontal (left/right) movement
 
@@ -198,7 +196,7 @@ class Board:
         ----------
         direction : str
             Either left or right
-        
+
         Returns
         -------
         was_valid : bool
@@ -208,13 +206,13 @@ class Board:
         was_valid = False
         for i in range(0, len(self.board_positions)):
             temp = self.board_positions[i]
-            if direction == 'left':
+            if direction == "left":
                 temp.reverse()
             valid, score = self.update_nums(temp)
             if valid:
                 self.parent_instance.score = self.parent_instance.score + score
                 was_valid = True
-            if direction == 'left':
+            if direction == "left":
                 temp.reverse()
             self.board_positions[i] = temp
 
@@ -222,7 +220,6 @@ class Board:
             self.parent_instance.turn = self.parent_instance.turn + 1
 
         return was_valid
-
 
     def update_nums(self, nums):
         """Function that updates the numbers in a single column or row based on 2048 rules
@@ -234,7 +231,7 @@ class Board:
         ----------
         nums : list of int
             The row or column to update
-        
+
         Returns
         -------
         valid_move : bool
@@ -248,7 +245,7 @@ class Board:
         counter = 3
         while counter > 0:
             next_num = counter - 1
-            while  next_num > 0 and nums[next_num] == 0:
+            while next_num > 0 and nums[next_num] == 0:
                 next_num = next_num - 1
             if nums[counter] == nums[next_num]:
                 nums[next_num] = 2 * nums[counter]
@@ -257,7 +254,7 @@ class Board:
                 nums[counter] = 0
                 counter = next_num
             counter = next_num
-        
+
         output_arr = []
         counter = 3
         non_zero = 0
@@ -266,18 +263,16 @@ class Board:
                 output_arr.append(nums[counter])
                 non_zero = non_zero + 1
             counter = counter - 1
-        for i in range(0, 4-non_zero):
+        for i in range(0, 4 - non_zero):
             output_arr.append(0)
         for i in range(0, len(output_arr)):
-            if nums[i] != output_arr[3-i]:
+            if nums[i] != output_arr[3 - i]:
                 valid_move = True
-            nums[i] = output_arr[3-i]
+            nums[i] = output_arr[3 - i]
         return valid_move, score_gain
 
-
     def print_board(self):
-        """Debug function for printing board
-        """
-        
+        """Debug function for printing board"""
+
         for i in range(0, len(self.board_positions)):
             print(self.board_positions[i])
