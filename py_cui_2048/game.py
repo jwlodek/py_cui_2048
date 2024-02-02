@@ -48,6 +48,7 @@ class Game:
             for elem in row:
                 if elem == 2048:
                     return True
+        return False
 
     def check_defeat(self):
         """Checks if no valid moves left
