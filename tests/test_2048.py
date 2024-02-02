@@ -38,7 +38,7 @@ def test_game_board_positions(game_instance):
 def test_check_victory(game_instance):
     """test `check_victory` method"""
 
-    assert game_instance.check_victory() is None
+    assert game_instance.check_victory() is False
 
     game_instance.game_board.board_positions[0][0] = 2048
 
